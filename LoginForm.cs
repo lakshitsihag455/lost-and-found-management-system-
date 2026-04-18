@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace LostAndFoundApp
@@ -83,10 +85,24 @@ namespace LostAndFoundApp
                 return;
             }
 
-            var dashboard = new DashboardForm();
-            dashboard.FormClosed += (s, args) => this.Close();
-            dashboard.Show();
-            this.Hide();
+            // Open the bundled HTML login page in the default browser.
+            // The login.html file is copied to the app output directory by the project file.
+            string htmlFile = Path.Combine(AppContext.BaseDirectory, "login.html");
+            if (File.Exists(htmlFile))
+            {
+                try
+                {
+                    Process.Start(new ProcessStartInfo(htmlFile) { UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to open browser: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Local login.html not found in application folder.", "File missing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

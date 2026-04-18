@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Lost and Found (Demo)</title>
+  <style>
+    :root{
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --muted: #6b7280;
+      --danger: #dc2626;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#ffffff);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:#111827;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:var(--card);
+      border-radius:10px;
+      box-shadow:0 6px 20px rgba(16,24,40,0.08);
+      padding:28px;
+      box-sizing:border-box;
+    }
+    h1{margin:0 0 8px;font-size:22px}
+    p.lead{margin:0 0 18px;color:var(--muted)}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#374151}
+    input[type="text"],input[type="password"]{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #e5e7eb;
+      border-radius:6px;
+      font-size:14px;
+      box-sizing:border-box;
+      margin-bottom:8px;
+    }
+    .error{color:var(--danger);font-size:13px;margin-bottom:8px;display:none}
+    .btn{
+      display:inline-block;
+      width:100%;
+      padding:10px 12px;
+      background:var(--accent);
+      color:white;
+      border:none;
+      border-radius:6px;
+      font-size:15px;
+      cursor:pointer;
+    }
+    .btn:active{transform:translateY(1px)}
+    .small{font-size:13px;color:var(--muted);margin-top:12px;text-align:center}
+
+    @media (max-width:420px){
+      .card{padding:18px;border-radius:8px}
+      h1{font-size:20px}
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Login</h1>
+    <p class="lead">Enter your username and password.</p>
+
+    <form id="loginForm" novalidate>
+      <div>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username" />
+        <div id="userErr" class="error">Please enter your username</div>
+      </div>
+
+      <div style="margin-top:10px">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" />
+        <div id="passErr" class="error">Please enter your password</div>
+      </div>
+
+      <div style="margin-top:18px">
+        <button class="btn" type="submit">Login</button>
+      </div>
+
+      <div class="small">This is a frontend-only demo. No backend is used.</div>
+    </form>
+  </main>
+
+  <script>
+    // Basic form validation (client-side only)
+    (function(){
+      const form = document.getElementById('loginForm');
+      const username = document.getElementById('username');
+      const password = document.getElementById('password');
+      const userErr = document.getElementById('userErr');
+      const passErr = document.getElementById('passErr');
+
+      function showError(el){ el.style.display = 'block'; }
+      function hideError(el){ el.style.display = 'none'; }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        let valid = true;
+
+        if (!username.value.trim()){
+          showError(userErr);
+          valid = false;
+        } else { hideError(userErr); }
+
+        if (!password.value.trim()){
+          showError(passErr);
+          valid = false;
+        } else { hideError(passErr); }
+
+        if (!valid) return;
+
+        // Demo behaviour: show simple success and clear fields
+        alert('Login successful (demo)');
+        username.value = '';
+        password.value = '';
+      });
+
+      // Clear errors while typing
+      username.addEventListener('input', () => hideError(userErr));
+      password.addEventListener('input', () => hideError(passErr));
+    })();
+  </script>
+</body>
+</html>
